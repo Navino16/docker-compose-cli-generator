@@ -1,0 +1,44 @@
+{
+  "name": "docker-compose-cli-generator",
+  "version": "1.0.0",
+  "description": "Generate docker compose file from CLI",
+  "main": "app.js",
+  "scripts": {
+    "build": "rimraf ./build && tsc",
+    "start": "npm run build && node build/app.js",
+    "start:dev": "nodemon",
+    "lint": "eslint . --ext .ts",
+    "lint-and-fix": "eslint . --ext .ts --fix",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "package": "npm run build && rm -rf bin/ &&  npx ncc build build/app.js -o build/tmp && npx pkg build/tmp/index.js --targets=node18-linux-x64,node18-macos-x64,node18-win-x64 -o bin/dccg"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Navino16/docker-compose-cli-generator.git"
+  },
+  "keywords": [
+    "docker",
+    "cli",
+    "compose"
+  ],
+  "author": "Navino16",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/Navino16/docker-compose-cli-generator/issues"
+  },
+  "homepage": "https://github.com/Navino16/docker-compose-cli-generator#readme",
+  "devDependencies": {
+    "@types/node": "^20.10.1",
+    "@typescript-eslint/eslint-plugin": "^6.13.1",
+    "@typescript-eslint/parser": "^6.13.1",
+    "@vercel/ncc": "^0.38.1",
+    "eslint": "^8.54.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-config-airbnb-typescript": "^17.1.0",
+    "nodemon": "^3.0.1",
+    "pkg": "^5.8.1",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.3.2"
+  }
+}
