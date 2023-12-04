@@ -3,18 +3,24 @@
   "version": "1.0.0",
   "description": "Generate docker compose file from CLI",
   "main": "app.js",
+  "bin": "build/app.js",
   "scripts": {
-    "build": "rimraf ./build && tsc",
+    "build": "rimraf ./build && tsc && cp -r ./src/templates ./build",
     "start": "npm run build && node build/app.js",
     "start:dev": "nodemon",
     "lint": "eslint . --ext .ts",
     "lint-and-fix": "eslint . --ext .ts --fix",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "package": "npm run build && rm -rf bin/ &&  npx ncc build build/app.js -o build/tmp && npx pkg build/tmp/index.js --targets=node18-linux-x64,node18-macos-x64,node18-win-x64 -o bin/dccg"
+    "package": "npm run build && rm -rf bin/ && npx pkg . -o bin/dccg"
   },
   "pkg": {
     "assets": [
-      "templates/*"
+      "build/templates/**/*"
+    ],
+    "targets": [
+      "node18-linux-x64",
+      "node18-macos-x64",
+      "node18-win-x64"
     ]
   },
   "repository": {
@@ -49,7 +55,6 @@
   },
   "dependencies": {
     "handlebars": "^4.7.8",
-    "inquirer": "^9.2.12"
-  },
-  "type": "module"
+    "inquirer": "^8.2.6"
+  }
 }

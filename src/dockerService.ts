@@ -35,7 +35,7 @@ export type ServiceAnswer = {
 }
 
 export class DockerService {
-  private static SERVICES_TEMPLATE_FILE = './templates/services.handlebars'
+  private static SERVICES_TEMPLATE_FILE = `${__dirname}/templates/services.handlebars`
 
   private static questions = [
     {
