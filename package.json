@@ -12,6 +12,11 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "npm run build && rm -rf bin/ &&  npx ncc build build/app.js -o build/tmp && npx pkg build/tmp/index.js --targets=node18-linux-x64,node18-macos-x64,node18-win-x64 -o bin/dccg"
   },
+  "pkg": {
+    "assets": [
+      "templates/*"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Navino16/docker-compose-cli-generator.git"
@@ -28,6 +33,7 @@
   },
   "homepage": "https://github.com/Navino16/docker-compose-cli-generator#readme",
   "devDependencies": {
+    "@types/inquirer": "^9.0.7",
     "@types/node": "^20.10.1",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
@@ -40,5 +46,10 @@
     "rimraf": "^5.0.5",
     "ts-node": "^10.9.1",
     "typescript": "^5.3.2"
-  }
+  },
+  "dependencies": {
+    "handlebars": "^4.7.8",
+    "inquirer": "^9.2.12"
+  },
+  "type": "module"
 }
