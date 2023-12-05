@@ -1,0 +1,126 @@
+{{#if answer.serviceDoc}}
+## {{answer.serviceDoc}}
+{{/if}}
+{{answer.serviceName}}:
+  image: {{{answer.imageName}}}:{{{answer.imageTag}}}
+  container_name: {{{answer.containerName}}}
+  {{!-- User --}}
+  {{#if answer.user}}
+  user: {{{answer.user}}}
+  {{/if}}
+  {{!-- Entrypoint --}}
+  {{#if answer.entrypoint}}
+  entrypoint: {{{answer.entrypoint}}}
+  {{/if}}
+  {{!-- Command --}}
+  {{#if answer.command}}
+  command: {{{answer.command}}}
+  {{/if}}
+  {{!-- Dependencies --}}
+  {{#each answer.dependsOn}}
+  {{#if @first}}
+  depends_on:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- Labels --}}
+  {{#each answer.labels}}
+  {{#if @first}}
+  labels:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- Env files --}}
+  {{#each answer.envFiles}}
+  {{#if @first}}
+  env_file:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- Volumes --}}
+  {{#each answer.volumePaths}}
+  {{#if @first}}
+  volumes:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- Runtime --}}
+  {{#if answer.runtime}}
+  runtime: {{{answer.runtime}}}
+  {{/if}}
+  {{!-- Capabilities --}}
+  {{#each answer.capabilities}}
+  {{#if @first}}
+  cap_add:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- DNS --}}
+  {{#each answer.dns}}
+  {{#if @first}}
+  dns:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- Security options --}}
+  {{#each answer.securityOpts}}
+  {{#if @first}}
+  security_opt:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- Sysctls --}}
+  {{#each answer.sysctls}}
+  {{#if @first}}
+  sysctls:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{!-- TTY --}}
+  {{#if answer.tty}}
+  tty: {{{answer.tty}}}
+  {{/if}}
+  {{!-- Ports --}}
+  {{#each answer.ports}}
+  {{#if @first}}
+  ports:
+  {{/if}}
+    - "{{{this}}}"
+  {{/each}}
+  {{!-- Networks --}}
+  {{#unless answer.useNetworksAliases}}
+  {{#each answer.networks}}
+  {{#if @first}}
+  networks:
+  {{/if}}
+    - {{{this}}}
+  {{/each}}
+  {{/unless}}
+  {{!-- Networks Aliases --}}
+  {{#if answer.useNetworksAliases}}
+  {{#each answer.networks as |network networkId|}}
+  {{#if @first}}
+  networks:
+  {{/if}}
+    {{{network}}}:
+      aliases:
+      {{#each ../answer.networksAliases as |networkAlias networkAliasId|}}
+        {{#if (ifEquals networkAliasId networkId)}}
+        {{#each networkAlias as |alias|}}
+        - {{{alias}}}
+        {{/each}}
+        {{/if}}
+      {{/each}}
+  {{/each}}
+  {{/if}}
+  {{!-- Healthcheck --}}
+  {{#if answer.useHealthcheck}}
+  healthcheck:
+    test: [{{#each answer.healthcheck}}"{{{this}}}"{{#unless @last}}, {{/unless}}{{/each}}]
+    interval: {{{answer.healthcheckInterval}}}
+    timeout: {{{answer.healthcheckTimeout}}}
+    retries: {{{answer.healthcheckRetries}}}
+    start_period: {{{answer.healthcheckStartPeriod}}}
+    start_interval: {{{answer.healthcheckStartInterval}}}
+  {{/if}}
+  restart: {{{answer.restartPolicy}}}
